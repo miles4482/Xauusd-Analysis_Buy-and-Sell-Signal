@@ -5,52 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>XAUUSD Friday 16 Oct 2026</title>
 <style>
-  :root {
-    --bg: #f4f1ea;
-    --ink: #1c1a16;
-    --muted: #6e685c;
-    --line: #ddd6c8;
-    --gold: #8a6230;
-    --up: #1f7a4d;
-    --down: #a33b32;
-  }
+  :root { --bg:#f7f4ee; --ink:#1c1a16; --muted:#6d675c; --line:#e3dccf; }
   * { box-sizing: border-box; }
-  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); font: 16px/1.4 Georgia, "Iowan Old Style", "Palatino Linotype", serif; }
-  header {
-    display: flex; justify-content: space-between; align-items: center; gap: 18px;
-    padding: 14px 22px; border-bottom: 1px solid var(--line); background: #fbf9f4;
-  }
-  h1 { font-size: 22px; font-weight: 600; margin: 0; }
-  .sub { color: var(--muted); font: 14px/1.4 "Segoe UI", Helvetica, sans-serif; margin-top: 2px; }
-  .bar { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font: 14px/1 "Segoe UI", Helvetica, sans-serif; }
-  label { display: flex; gap: 6px; align-items: center; cursor: pointer; }
-  button {
-    font: 14px/1 "Segoe UI", Helvetica, sans-serif;
-    background: #fff; color: var(--ink); border: 1px solid var(--line);
-    border-radius: 8px; padding: 10px 14px; cursor: pointer;
-  }
-  button:hover { border-color: var(--gold); }
-  #wrap { position: relative; height: calc(100vh - 74px); }
-  canvas { width: 100%; height: 100%; display: block; }
-  #tip {
-    position: absolute; display: none; pointer-events: none;
-    background: #fff; border: 1px solid var(--line); border-radius: 8px;
-    padding: 10px 12px; font: 15px/1.45 "Segoe UI", Helvetica, sans-serif;
-    box-shadow: 0 8px 24px rgba(28,26,22,0.08);
-  }
+  html, body { margin:0; height:100%; background:var(--bg); color:var(--ink); font: 15px/1.35 "Segoe UI", Helvetica, Arial, sans-serif; }
+  header { display:flex; justify-content:space-between; gap:12px; align-items:center; padding:10px 16px; border-bottom:1px solid var(--line); background:#fffdf8; }
+  h1 { font: 600 18px/1.2 Georgia, serif; margin:0; }
+  .sub { color:var(--muted); font-size:12px; margin-top:2px; }
+  .bar { display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; font-size:13px; }
+  button { background:#fff; border:1px solid var(--line); border-radius:8px; padding:8px 12px; cursor:pointer; }
+  #wrap { position:relative; height: calc(100vh - 62px); }
+  canvas { width:100%; height:100%; display:block; }
+  #tip { position:absolute; display:none; pointer-events:none; background:#fff; border:1px solid var(--line); border-radius:8px; padding:8px 10px; font-size:13px; box-shadow:0 6px 18px rgba(0,0,0,.08); }
 </style>
 </head>
 <body>
 <header>
   <div>
-    <h1>XAUUSD · Friday 16 Oct</h1>
-    <div class="sub">9:05 AM New York · spot 4170 · Swissquote 4168.2 / 4168.7 · flat, under 4179</div>
+    <h1>XAUUSD · Friday 16 Oct · all levels</h1>
+    <div class="sub">9:07 AM New York · spot 4169 · Swissquote 4168.8 / 4169.3 · green = support and +OB · red = resistance and −OB</div>
   </div>
   <div class="bar">
-    <label><input type="checkbox" data-layer="sr" checked> Levels</label>
-    <label><input type="checkbox" data-layer="rev" checked> Reversals</label>
-    <label><input type="checkbox" data-layer="ob" checked> Order blocks</label>
-    <label><input type="checkbox" data-layer="plan" checked> Plan</label>
     <button id="png" type="button">Download PNG</button>
     <button id="html" type="button">Download HTML</button>
   </div>
@@ -61,12 +35,28 @@
 </div>
 <script>
 const BARS = [{"t":"Thu 00:00","o":4145.8,"h":4148,"l":4141.3,"c":4145.1},{"t":"Thu 01:00","o":4144.9,"h":4147.4,"l":4136,"c":4138.3},{"t":"Thu 02:00","o":4137.9,"h":4140.5,"l":4131.8,"c":4136.4},{"t":"Thu 03:00","o":4136.5,"h":4146.4,"l":4136.1,"c":4146.4},{"t":"Thu 04:00","o":4146.2,"h":4159.6,"l":4145.5,"c":4151.8},{"t":"Thu 05:00","o":4151.9,"h":4161.1,"l":4151.8,"c":4157.7},{"t":"Thu 06:00","o":4157.8,"h":4159.5,"l":4152.5,"c":4155.5},{"t":"Thu 07:00","o":4155.6,"h":4160.1,"l":4145.1,"c":4145.1},{"t":"Thu 08:00","o":4145.5,"h":4159.9,"l":4130.7,"c":4152.3},{"t":"Thu 09:00","o":4152.4,"h":4169,"l":4144.4,"c":4155.4},{"t":"Thu 10:00","o":4155.6,"h":4165.4,"l":4144.9,"c":4157.9},{"t":"Thu 11:00","o":4158.2,"h":4159.5,"l":4148.2,"c":4149.7},{"t":"Thu 12:00","o":4149.9,"h":4152.9,"l":4143.6,"c":4147.6},{"t":"Thu 13:00","o":4147.4,"h":4154.8,"l":4145.2,"c":4153.3},{"t":"Thu 14:00","o":4153.4,"h":4158.9,"l":4153,"c":4157.7},{"t":"Thu 15:00","o":4157.8,"h":4176.1,"l":4157.7,"c":4174.8},{"t":"Thu 16:00","o":4175,"h":4176.8,"l":4168.5,"c":4171.6},{"t":"Thu 18:00","o":4171.2,"h":4173,"l":4164.2,"c":4164.4},{"t":"Thu 19:00","o":4164.5,"h":4165.8,"l":4155.7,"c":4156},{"t":"Thu 20:00","o":4155.5,"h":4157.8,"l":4151.4,"c":4156.4},{"t":"Thu 21:00","o":4156,"h":4160.8,"l":4146.6,"c":4152.5},{"t":"Thu 22:00","o":4152.6,"h":4180.4,"l":4152.4,"c":4176.6},{"t":"Thu 23:00","o":4176.2,"h":4184.1,"l":4163,"c":4183.5},{"t":"Fri 00:00","o":4183.7,"h":4187,"l":4172.6,"c":4174.9},{"t":"Fri 01:00","o":4175,"h":4177.3,"l":4169.8,"c":4175},{"t":"Fri 02:00","o":4174.8,"h":4181.2,"l":4168.8,"c":4177.3},{"t":"Fri 03:00","o":4177.2,"h":4190.3,"l":4176.5,"c":4187.4},{"t":"Fri 04:00","o":4187.6,"h":4189.7,"l":4178.8,"c":4189.7},{"t":"Fri 05:00","o":4189.3,"h":4192.4,"l":4177.2,"c":4177.2},{"t":"Fri 06:00","o":4177.3,"h":4185.6,"l":4174,"c":4174.6},{"t":"Fri 07:00","o":4174.1,"h":4182.1,"l":4171.4,"c":4172},{"t":"Fri 08:00","o":4171.9,"h":4181.8,"l":4169.5,"c":4169.5}];
-const LIVE = 4169.8;
-const LAYERS = { sr: true, rev: true, ob: true, plan: true };
+const LIVE = 4168.6;
 const canvas = document.getElementById("c");
 const tip = document.getElementById("tip");
 const ctx = canvas.getContext("2d");
 let geom = null;
+
+const LINES = [
+  { p:4262, color:"#8a3b32", text:"R  20-week  4262" },
+  { p:4219, color:"#8a3b32", text:"R  swing high  4219" },
+  { p:4209, color:"#8a6230", text:"R  20-day  4209" },
+  { p:4179, color:"#1f7a4d", text:"Buy close  4179" },
+  { p:4168, color:"#a33b32", text:"Stop  4168" },
+  { p:4135, color:"#1f7a4d", text:"S  daily shelf  4135" },
+  { p:4112, color:"#1f7a4d", text:"S  last shelf  4112" },
+  { p:4066, color:"#1f7a4d", text:"S  week / month low  4066" }
+];
+const BANDS = [
+  { a:4190, b:4196, fill:"rgba(163,59,50,0.16)", text:"R  upside reversal  4190–4196" },
+  { a:4174, b:4179, fill:"rgba(163,59,50,0.22)", text:"−OB  bearish order block  4174–4179" },
+  { a:4156, b:4161, fill:"rgba(138,98,48,0.16)", text:"S  breakout shelf  4156–4161" },
+  { a:4149, b:4153, fill:"rgba(31,122,77,0.28)", text:"+OB  bullish order block  4149–4153" }
+];
 
 function resize() {
   const dpr = window.devicePixelRatio || 1;
@@ -80,121 +70,108 @@ function resize() {
 function draw() {
   const w = canvas.getBoundingClientRect().width;
   const h = canvas.getBoundingClientRect().height;
-  const pad = { l: 28, r: 210, t: 24, b: 42 };
+  const pad = { l: 18, r: 280, t: 16, b: 36 };
   const plot = { x: pad.l, y: pad.t, w: w - pad.l - pad.r, h: h - pad.t - pad.b };
-  const yMin = 4124, yMax = 4216;
+  const yMin = 4055, yMax = 4275;
   const yOf = p => plot.y + (yMax - p) / (yMax - yMin) * plot.h;
   const n = BARS.length;
   const slot = plot.w / n;
   const xOf = i => plot.x + slot * (i + 0.5);
-  geom = { plot, yOf, xOf, slot };
+  geom = { plot, slot };
 
   ctx.clearRect(0, 0, w, h);
-  ctx.fillStyle = "#f4f1ea";
+  ctx.fillStyle = "#f7f4ee";
   ctx.fillRect(0, 0, w, h);
-  ctx.fillStyle = "#fbf9f4";
+  ctx.fillStyle = "#fffdf8";
   ctx.fillRect(plot.x, plot.y, plot.w, plot.h);
 
-  ctx.font = "15px Segoe UI, Helvetica, sans-serif";
+  ctx.font = "12px Segoe UI, Helvetica, sans-serif";
   ctx.textBaseline = "middle";
-  ctx.strokeStyle = "#ece6da";
-  ctx.lineWidth = 1;
-  for (let p = 4130; p <= 4200; p += 10) {
+  ctx.strokeStyle = "#efe8dc";
+  ctx.fillStyle = "#b3ab9e";
+  for (let p = 4060; p <= 4260; p += 20) {
     const y = yOf(p);
     ctx.beginPath();
     ctx.moveTo(plot.x, y);
     ctx.lineTo(plot.x + plot.w, y);
     ctx.stroke();
-    ctx.fillStyle = "#8a8172";
-    ctx.fillText(String(p), plot.x + plot.w + 16, y);
   }
 
   const tags = [];
-  function band(a, b, fill, label) {
-    const top = Math.max(a, b), bot = Math.min(a, b);
+  BANDS.forEach((band) => {
+    const top = Math.max(band.a, band.b), bot = Math.min(band.a, band.b);
     const y1 = yOf(top), y2 = yOf(bot);
-    ctx.fillStyle = fill;
-    ctx.fillRect(plot.x, y1, plot.w, Math.max(8, y2 - y1));
-    tags.push({ y: (y1 + y2) / 2, text: label, color: "#1c1a16" });
-  }
-  function hline(p, color, label, dash) {
-    const y = yOf(p);
-    ctx.save();
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 1.5;
-    ctx.setLineDash(dash || []);
+    ctx.fillStyle = band.fill;
+    ctx.fillRect(plot.x, y1, plot.w, Math.max(6, y2 - y1));
+    ctx.fillStyle = "#1c1a16";
+    ctx.font = "bold 12px Segoe UI, Helvetica, sans-serif";
+    ctx.fillText(band.text.split("  ")[0], plot.x + 8, (y1 + y2) / 2);
+    tags.push({ y: (y1 + y2) / 2, text: band.text, color: "#1c1a16" });
+  });
+
+  LINES.forEach((line) => {
+    const y = yOf(line.p);
+    ctx.strokeStyle = line.color;
+    ctx.lineWidth = 1.25;
+    ctx.setLineDash([5, 4]);
     ctx.beginPath();
     ctx.moveTo(plot.x, y);
     ctx.lineTo(plot.x + plot.w, y);
     ctx.stroke();
-    ctx.restore();
-    tags.push({ y, text: label, color });
-  }
-
-  if (LAYERS.rev) {
-    band(4190, 4196, "rgba(163,59,50,0.10)", "Upside reversal  4190–4196");
-    band(4149, 4153, "rgba(31,122,77,0.12)", "Downside reversal  4149–4153");
-  }
-  if (LAYERS.ob) {
-    band(4174, 4179, "rgba(163,59,50,0.16)", "Bearish block  4174–4179");
-    band(4156, 4161, "rgba(138,98,48,0.12)", "Shelf  4156–4161");
-  }
-  if (LAYERS.sr) {
-    hline(4209, "#8a6230", "20-day  4209");
-    hline(4135, "#1f7a4d", "Daily shelf  4135", [5, 4]);
-  }
-  if (LAYERS.plan) {
-    hline(4179, "#1f7a4d", "Buy close  4179");
-    hline(4168, "#a33b32", "Stop  4168", [6, 4]);
-    hline(4190, "#8a6230", "Target  4190", [6, 4]);
-  }
+    ctx.setLineDash([]);
+    tags.push({ y, text: line.text, color: line.color });
+  });
 
   tags.sort((a, b) => a.y - b.y);
-  let last = -999;
+  let last = plot.y + 8;
   tags.forEach((tag) => {
-    tag.y = Math.max(tag.y, last + 22);
+    tag.y = Math.max(plot.y + 8, Math.min(tag.y, plot.y + plot.h - 8));
+    tag.y = Math.max(tag.y, last + 16);
     last = tag.y;
   });
-  ctx.font = "15px Segoe UI, Helvetica, sans-serif";
+  ctx.font = "12px Segoe UI, Helvetica, sans-serif";
   tags.forEach((tag) => {
     ctx.fillStyle = tag.color;
-    ctx.fillText(tag.text, plot.x + plot.w + 16, tag.y);
+    ctx.fillText(tag.text, plot.x + plot.w + 12, tag.y);
   });
 
-  const bodyW = Math.max(7, slot * 0.62);
+  const bodyW = Math.max(5, slot * 0.62);
+  ctx.lineWidth = 1.4;
   BARS.forEach((bar, i) => {
     const x = xOf(i);
     const up = bar.c >= bar.o;
     ctx.strokeStyle = up ? "#1f7a4d" : "#a33b32";
     ctx.fillStyle = up ? "#1f7a4d" : "#a33b32";
-    ctx.lineWidth = 1.6;
     ctx.beginPath();
     ctx.moveTo(x, yOf(bar.h));
     ctx.lineTo(x, yOf(bar.l));
     ctx.stroke();
     const y1 = yOf(Math.max(bar.o, bar.c));
     const y2 = yOf(Math.min(bar.o, bar.c));
-    ctx.fillRect(x - bodyW / 2, y1, bodyW, Math.max(1.5, y2 - y1));
+    ctx.fillRect(x - bodyW / 2, y1, bodyW, Math.max(1.4, y2 - y1));
   });
 
-  ctx.strokeStyle = "#8a6230";
-  ctx.lineWidth = 1.5;
-  ctx.setLineDash([4, 4]);
+  const yLive = yOf(LIVE);
+  ctx.strokeStyle = "#1c1a16";
+  ctx.lineWidth = 1.4;
+  ctx.setLineDash([3, 3]);
   ctx.beginPath();
-  ctx.moveTo(plot.x, yOf(LIVE));
-  ctx.lineTo(plot.x + plot.w, yOf(LIVE));
+  ctx.moveTo(plot.x, yLive);
+  ctx.lineTo(plot.x + plot.w, yLive);
   ctx.stroke();
   ctx.setLineDash([]);
-  ctx.fillStyle = "#8a6230";
+  ctx.fillStyle = "#1c1a16";
   ctx.beginPath();
-  ctx.arc(xOf(n - 1), yOf(LIVE), 5, 0, Math.PI * 2);
+  ctx.arc(xOf(n - 1), yLive, 4, 0, Math.PI * 2);
   ctx.fill();
+  ctx.font = "bold 12px Segoe UI, Helvetica, sans-serif";
+  ctx.fillText("NOW  4169", plot.x + plot.w + 12, Math.min(yLive, plot.y + plot.h - 8));
 
-  ctx.fillStyle = "#6e685c";
-  ctx.font = "14px Segoe UI, Helvetica, sans-serif";
+  ctx.fillStyle = "#6d675c";
+  ctx.font = "12px Segoe UI, Helvetica, sans-serif";
   ctx.textBaseline = "alphabetic";
-  ctx.fillText("Thursday", plot.x, h - 14);
-  ctx.fillText("Friday 8:00 AM close", plot.x + plot.w - 150, h - 14);
+  ctx.fillText("Thursday", plot.x, h - 12);
+  ctx.fillText("Friday 9:00 AM", plot.x + plot.w - 100, h - 12);
 }
 
 canvas.addEventListener("mousemove", (ev) => {
@@ -202,20 +179,14 @@ canvas.addEventListener("mousemove", (ev) => {
   const rect = canvas.getBoundingClientRect();
   const x = ev.clientX - rect.left;
   const i = Math.floor((x - geom.plot.x) / geom.slot);
-  if (i < 0 || i >= BARS.length || x > geom.plot.x + geom.plot.w) {
-    tip.style.display = "none";
-    return;
-  }
+  if (i < 0 || i >= BARS.length || x > geom.plot.x + geom.plot.w) { tip.style.display = "none"; return; }
   const b = BARS[i];
   tip.style.display = "block";
-  tip.style.left = Math.min(x + 16, rect.width - 180) + "px";
-  tip.style.top = Math.max(12, ev.clientY - rect.top - 72) + "px";
-  tip.innerHTML = "<b>" + b.t + "</b> New York<br>Open " + b.o + " · High " + b.h + "<br>Low " + b.l + " · Close " + b.c;
+  tip.style.left = Math.min(x + 14, rect.width - 190) + "px";
+  tip.style.top = Math.max(8, ev.clientY - rect.top - 64) + "px";
+  tip.innerHTML = "<b>" + b.t + "</b><br>O " + b.o + "  H " + b.h + "<br>L " + b.l + "  C " + b.c;
 });
 canvas.addEventListener("mouseleave", () => { tip.style.display = "none"; });
-document.querySelectorAll("[data-layer]").forEach((el) => {
-  el.addEventListener("change", () => { LAYERS[el.dataset.layer] = el.checked; draw(); });
-});
 document.getElementById("png").addEventListener("click", () => {
   const a = document.createElement("a");
   a.href = canvas.toDataURL("image/png");
