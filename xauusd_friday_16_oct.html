@@ -3,130 +3,66 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>XAUUSD Friday 16 Oct 2026 — levels</title>
+<title>XAUUSD Friday 16 Oct 2026</title>
 <style>
   :root {
-    --bg: #12140f;
-    --panel: #1b1e16;
-    --line: #2c3124;
-    --text: #e7e2d4;
-    --muted: #9a937f;
-    --gold: #e0b15a;
-    --up: #7dcea0;
-    --down: #e07a6a;
-    --buy: #3d8b6e;
-    --sell: #a85a4e;
+    --bg: #f4f1ea;
+    --ink: #1c1a16;
+    --muted: #6e685c;
+    --line: #ddd6c8;
+    --gold: #8a6230;
+    --up: #1f7a4d;
+    --down: #a33b32;
   }
   * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font: 14px/1.45 "Segoe UI", Helvetica, Arial, sans-serif;
-  }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); font: 16px/1.4 Georgia, "Iowan Old Style", "Palatino Linotype", serif; }
   header {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    align-items: flex-end;
-    padding: 16px 20px 8px;
-    border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center; gap: 18px;
+    padding: 14px 22px; border-bottom: 1px solid var(--line); background: #fbf9f4;
   }
-  h1 { font-size: 18px; font-weight: 600; margin: 0; letter-spacing: 0.02em; }
-  h1 span { color: var(--gold); }
-  .sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
-  .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  h1 { font-size: 22px; font-weight: 600; margin: 0; }
+  .sub { color: var(--muted); font: 14px/1.4 "Segoe UI", Helvetica, sans-serif; margin-top: 2px; }
+  .bar { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font: 14px/1 "Segoe UI", Helvetica, sans-serif; }
+  label { display: flex; gap: 6px; align-items: center; cursor: pointer; }
   button {
-    background: var(--panel);
-    color: var(--text);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 8px 12px;
-    cursor: pointer;
+    font: 14px/1 "Segoe UI", Helvetica, sans-serif;
+    background: #fff; color: var(--ink); border: 1px solid var(--line);
+    border-radius: 8px; padding: 10px 14px; cursor: pointer;
   }
   button:hover { border-color: var(--gold); }
-  main { display: grid; grid-template-columns: 280px 1fr; min-height: calc(100vh - 72px); }
-  aside {
-    border-right: 1px solid var(--line);
-    padding: 12px 14px 24px;
-    background: #161910;
-  }
-  aside h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 14px 0 8px; }
-  label { display: flex; gap: 8px; align-items: center; margin: 5px 0; cursor: pointer; font-size: 13px; }
-  .swatch { width: 14px; height: 8px; border-radius: 2px; display: inline-block; }
-  #wrap { position: relative; }
-  canvas { width: 100%; height: calc(100vh - 78px); display: block; }
+  #wrap { position: relative; height: calc(100vh - 74px); }
+  canvas { width: 100%; height: 100%; display: block; }
   #tip {
-    position: absolute; pointer-events: none; display: none;
-    background: #0e100c; border: 1px solid var(--line); color: var(--text);
-    padding: 8px 10px; border-radius: 6px; font-size: 12px; white-space: nowrap;
-  }
-  table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  td { padding: 3px 0; vertical-align: top; }
-  td:last-child { text-align: right; color: var(--gold); font-variant-numeric: tabular-nums; }
-  .plan { background: #242816; border: 1px solid #3d4a28; border-radius: 8px; padding: 10px; margin-top: 8px; }
-  .plan b { color: var(--gold); }
-  @media (max-width: 900px) {
-    main { grid-template-columns: 1fr; }
-    canvas { height: 70vh; }
+    position: absolute; display: none; pointer-events: none;
+    background: #fff; border: 1px solid var(--line); border-radius: 8px;
+    padding: 10px 12px; font: 15px/1.45 "Segoe UI", Helvetica, sans-serif;
+    box-shadow: 0 8px 24px rgba(28,26,22,0.08);
   }
 </style>
 </head>
 <body>
 <header>
   <div>
-    <h1>XAUUSD <span>Friday 16 Oct 2026</span></h1>
-    <div class="sub">7:19 AM New York · spot 4178 · Swissquote elite 4177.5 / 4178.0 · note 105.41 · 10-year 5.089% frozen</div>
+    <h1>XAUUSD · Friday 16 Oct</h1>
+    <div class="sub">9:05 AM New York · spot 4170 · Swissquote 4168.2 / 4168.7 · flat, under 4179</div>
   </div>
-  <div class="actions">
-    <button id="png" type="button">Download chart PNG</button>
-    <button id="html" type="button">Download this HTML</button>
+  <div class="bar">
+    <label><input type="checkbox" data-layer="sr" checked> Levels</label>
+    <label><input type="checkbox" data-layer="rev" checked> Reversals</label>
+    <label><input type="checkbox" data-layer="ob" checked> Order blocks</label>
+    <label><input type="checkbox" data-layer="plan" checked> Plan</label>
+    <button id="png" type="button">Download PNG</button>
+    <button id="html" type="button">Download HTML</button>
   </div>
 </header>
-<main>
-  <aside>
-    <h2>Show on chart</h2>
-    <label><input type="checkbox" data-layer="price" checked> Price (hourly, spot scale)</label>
-    <label><input type="checkbox" data-layer="sr" checked> Support and resistance</label>
-    <label><input type="checkbox" data-layer="rev" checked> Reversal zones</label>
-    <label><input type="checkbox" data-layer="ob" checked> Order blocks</label>
-    <label><input type="checkbox" data-layer="bos" checked> Structure breaks</label>
-    <label><input type="checkbox" data-layer="plan" checked> Working plan</label>
-    <div class="plan">
-      <b>Now: flat at 4178.</b><br>
-      Buy a 15-minute close back above 4179. Note above 105.17. Yield under 5.22%. Stop 4168. Target 4190.<br>
-      A close under 4149 cancels it.
-    </div>
-    <h2>Map</h2>
-    <table>
-      <tr><td>20-week</td><td>4262</td></tr>
-      <tr><td>Swing high</td><td>4219</td></tr>
-      <tr><td>20-day</td><td>4209</td></tr>
-      <tr><td>Upside reversal</td><td>4190–4196</td></tr>
-      <tr><td>Bearish block</td><td>4174–4179</td></tr>
-      <tr><td>Spot now</td><td>4178</td></tr>
-      <tr><td>Breakout shelf</td><td>4156–4161</td></tr>
-      <tr><td>Bullish block</td><td>4149–4153</td></tr>
-      <tr><td>Daily shelf</td><td>4135</td></tr>
-      <tr><td>Last shelf</td><td>4112</td></tr>
-      <tr><td>Week / month low</td><td>4066</td></tr>
-    </table>
-    <h2>How to read</h2>
-    <p class="sub">Candles are COMEX hours shifted by the live futures-to-spot gap of 17.8. Far levels 4066 and 4262 are listed, not drawn, so the last two sessions stay readable. Hover a candle for its range.</p>
-  </aside>
-  <div id="wrap">
-    <canvas id="c"></canvas>
-    <div id="tip"></div>
-  </div>
-</main>
+<div id="wrap">
+  <canvas id="c"></canvas>
+  <div id="tip"></div>
+</div>
 <script>
-const BARS = [{"t":"10-14 18:00","o":4110.1,"h":4115.2,"l":4104.9,"c":4109.9},{"t":"10-14 19:00","o":4110.1,"h":4116.2,"l":4103.2,"c":4115.3},{"t":"10-14 20:00","o":4115.1,"h":4150.2,"l":4114.2,"c":4142.8},{"t":"10-14 21:00","o":4142.7,"h":4155,"l":4139.4,"c":4142.3},{"t":"10-14 22:00","o":4142.2,"h":4164.6,"l":4139,"c":4163.2},{"t":"10-14 23:00","o":4163.5,"h":4165.5,"l":4147.3,"c":4147.8},{"t":"10-15 00:00","o":4148.9,"h":4151.1,"l":4144.4,"c":4148.2},{"t":"10-15 01:00","o":4148,"h":4150.5,"l":4139.1,"c":4141.4},{"t":"10-15 02:00","o":4141,"h":4143.6,"l":4134.9,"c":4139.5},{"t":"10-15 03:00","o":4139.6,"h":4149.5,"l":4139.2,"c":4149.5},{"t":"10-15 04:00","o":4149.3,"h":4162.7,"l":4148.6,"c":4154.9},{"t":"10-15 05:00","o":4155,"h":4164.2,"l":4154.9,"c":4160.8},{"t":"10-15 06:00","o":4160.9,"h":4162.6,"l":4155.6,"c":4158.6},{"t":"10-15 07:00","o":4158.7,"h":4163.2,"l":4148.2,"c":4148.2},{"t":"10-15 08:00","o":4148.6,"h":4163,"l":4133.8,"c":4155.4},{"t":"10-15 09:00","o":4155.5,"h":4172.1,"l":4147.5,"c":4158.5},{"t":"10-15 10:00","o":4158.7,"h":4168.5,"l":4148,"c":4161},{"t":"10-15 11:00","o":4161.3,"h":4162.6,"l":4151.3,"c":4152.8},{"t":"10-15 12:00","o":4153,"h":4156,"l":4146.7,"c":4150.7},{"t":"10-15 13:00","o":4150.5,"h":4157.9,"l":4148.3,"c":4156.4},{"t":"10-15 14:00","o":4156.5,"h":4162,"l":4156.1,"c":4160.8},{"t":"10-15 15:00","o":4160.9,"h":4179.2,"l":4160.8,"c":4177.9},{"t":"10-15 16:00","o":4178.1,"h":4179.9,"l":4171.6,"c":4174.7},{"t":"10-15 18:00","o":4174.3,"h":4176.1,"l":4167.3,"c":4167.5},{"t":"10-15 19:00","o":4167.6,"h":4168.9,"l":4158.8,"c":4159.1},{"t":"10-15 20:00","o":4158.6,"h":4160.9,"l":4154.5,"c":4159.5},{"t":"10-15 21:00","o":4159.1,"h":4163.9,"l":4149.7,"c":4155.6},{"t":"10-15 22:00","o":4155.7,"h":4183.5,"l":4155.5,"c":4179.7},{"t":"10-15 23:00","o":4179.3,"h":4187.2,"l":4166.1,"c":4186.6},{"t":"10-16 00:00","o":4186.8,"h":4190.1,"l":4175.7,"c":4178},{"t":"10-16 01:00","o":4178.1,"h":4180.4,"l":4172.9,"c":4178.1},{"t":"10-16 02:00","o":4177.9,"h":4184.3,"l":4171.9,"c":4180.4},{"t":"10-16 03:00","o":4180.3,"h":4193.4,"l":4179.6,"c":4190.5},{"t":"10-16 04:00","o":4190.7,"h":4192.8,"l":4181.9,"c":4192.8},{"t":"10-16 05:00","o":4192.4,"h":4195.5,"l":4180.3,"c":4180.3},{"t":"10-16 06:00","o":4180.4,"h":4188.7,"l":4177.1,"c":4177.7}];
-const LIVE = 4178.4;
-
-const LAYERS = {
-  price: true, sr: true, rev: true, ob: true, bos: true, plan: true
-};
-
+const BARS = [{"t":"Thu 00:00","o":4145.8,"h":4148,"l":4141.3,"c":4145.1},{"t":"Thu 01:00","o":4144.9,"h":4147.4,"l":4136,"c":4138.3},{"t":"Thu 02:00","o":4137.9,"h":4140.5,"l":4131.8,"c":4136.4},{"t":"Thu 03:00","o":4136.5,"h":4146.4,"l":4136.1,"c":4146.4},{"t":"Thu 04:00","o":4146.2,"h":4159.6,"l":4145.5,"c":4151.8},{"t":"Thu 05:00","o":4151.9,"h":4161.1,"l":4151.8,"c":4157.7},{"t":"Thu 06:00","o":4157.8,"h":4159.5,"l":4152.5,"c":4155.5},{"t":"Thu 07:00","o":4155.6,"h":4160.1,"l":4145.1,"c":4145.1},{"t":"Thu 08:00","o":4145.5,"h":4159.9,"l":4130.7,"c":4152.3},{"t":"Thu 09:00","o":4152.4,"h":4169,"l":4144.4,"c":4155.4},{"t":"Thu 10:00","o":4155.6,"h":4165.4,"l":4144.9,"c":4157.9},{"t":"Thu 11:00","o":4158.2,"h":4159.5,"l":4148.2,"c":4149.7},{"t":"Thu 12:00","o":4149.9,"h":4152.9,"l":4143.6,"c":4147.6},{"t":"Thu 13:00","o":4147.4,"h":4154.8,"l":4145.2,"c":4153.3},{"t":"Thu 14:00","o":4153.4,"h":4158.9,"l":4153,"c":4157.7},{"t":"Thu 15:00","o":4157.8,"h":4176.1,"l":4157.7,"c":4174.8},{"t":"Thu 16:00","o":4175,"h":4176.8,"l":4168.5,"c":4171.6},{"t":"Thu 18:00","o":4171.2,"h":4173,"l":4164.2,"c":4164.4},{"t":"Thu 19:00","o":4164.5,"h":4165.8,"l":4155.7,"c":4156},{"t":"Thu 20:00","o":4155.5,"h":4157.8,"l":4151.4,"c":4156.4},{"t":"Thu 21:00","o":4156,"h":4160.8,"l":4146.6,"c":4152.5},{"t":"Thu 22:00","o":4152.6,"h":4180.4,"l":4152.4,"c":4176.6},{"t":"Thu 23:00","o":4176.2,"h":4184.1,"l":4163,"c":4183.5},{"t":"Fri 00:00","o":4183.7,"h":4187,"l":4172.6,"c":4174.9},{"t":"Fri 01:00","o":4175,"h":4177.3,"l":4169.8,"c":4175},{"t":"Fri 02:00","o":4174.8,"h":4181.2,"l":4168.8,"c":4177.3},{"t":"Fri 03:00","o":4177.2,"h":4190.3,"l":4176.5,"c":4187.4},{"t":"Fri 04:00","o":4187.6,"h":4189.7,"l":4178.8,"c":4189.7},{"t":"Fri 05:00","o":4189.3,"h":4192.4,"l":4177.2,"c":4177.2},{"t":"Fri 06:00","o":4177.3,"h":4185.6,"l":4174,"c":4174.6},{"t":"Fri 07:00","o":4174.1,"h":4182.1,"l":4171.4,"c":4172},{"t":"Fri 08:00","o":4171.9,"h":4181.8,"l":4169.5,"c":4169.5}];
+const LIVE = 4169.8;
+const LAYERS = { sr: true, rev: true, ob: true, plan: true };
 const canvas = document.getElementById("c");
 const tip = document.getElementById("tip");
 const ctx = canvas.getContext("2d");
@@ -135,8 +71,8 @@ let geom = null;
 function resize() {
   const dpr = window.devicePixelRatio || 1;
   const rect = canvas.getBoundingClientRect();
-  canvas.width = rect.width * dpr;
-  canvas.height = rect.height * dpr;
+  canvas.width = Math.max(1, rect.width * dpr);
+  canvas.height = Math.max(1, rect.height * dpr);
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   draw();
 }
@@ -144,110 +80,121 @@ function resize() {
 function draw() {
   const w = canvas.getBoundingClientRect().width;
   const h = canvas.getBoundingClientRect().height;
-  const pad = { l: 16, r: 168, t: 18, b: 28 };
+  const pad = { l: 28, r: 210, t: 24, b: 42 };
   const plot = { x: pad.l, y: pad.t, w: w - pad.l - pad.r, h: h - pad.t - pad.b };
-  const yMin = 4128, yMax = 4212;
+  const yMin = 4124, yMax = 4216;
   const yOf = p => plot.y + (yMax - p) / (yMax - yMin) * plot.h;
   const n = BARS.length;
   const slot = plot.w / n;
-  const xOf = i => plot.x + slot * i + slot * 0.5;
-  geom = { plot, yOf, xOf, slot, w, h };
+  const xOf = i => plot.x + slot * (i + 0.5);
+  geom = { plot, yOf, xOf, slot };
 
   ctx.clearRect(0, 0, w, h);
-  ctx.fillStyle = "#12140f";
+  ctx.fillStyle = "#f4f1ea";
   ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = "#fbf9f4";
+  ctx.fillRect(plot.x, plot.y, plot.w, plot.h);
 
-  ctx.strokeStyle = "#23281c";
+  ctx.font = "15px Segoe UI, Helvetica, sans-serif";
+  ctx.textBaseline = "middle";
+  ctx.strokeStyle = "#ece6da";
   ctx.lineWidth = 1;
-  ctx.font = "11px Segoe UI, Helvetica, sans-serif";
-  ctx.fillStyle = "#9a937f";
-  for (let p = 4130; p <= 4210; p += 10) {
+  for (let p = 4130; p <= 4200; p += 10) {
     const y = yOf(p);
     ctx.beginPath();
     ctx.moveTo(plot.x, y);
     ctx.lineTo(plot.x + plot.w, y);
     ctx.stroke();
-    ctx.fillText(String(p), plot.x + plot.w + 8, y + 4);
+    ctx.fillStyle = "#8a8172";
+    ctx.fillText(String(p), plot.x + plot.w + 16, y);
   }
 
-  function band(a, b, color, label, layer) {
-    if (!LAYERS[layer]) return;
-    const y1 = yOf(Math.max(a, b));
-    const y2 = yOf(Math.min(a, b));
-    ctx.fillStyle = color;
-    ctx.fillRect(plot.x, y1, plot.w, Math.max(2, y2 - y1));
-    ctx.fillStyle = "#e7e2d4";
-    ctx.fillText(label, plot.x + 8, y1 + 12);
+  const tags = [];
+  function band(a, b, fill, label) {
+    const top = Math.max(a, b), bot = Math.min(a, b);
+    const y1 = yOf(top), y2 = yOf(bot);
+    ctx.fillStyle = fill;
+    ctx.fillRect(plot.x, y1, plot.w, Math.max(8, y2 - y1));
+    tags.push({ y: (y1 + y2) / 2, text: label, color: "#1c1a16" });
   }
-  function hline(p, color, label, layer, dash) {
-    if (!LAYERS[layer]) return;
+  function hline(p, color, label, dash) {
     const y = yOf(p);
     ctx.save();
     ctx.strokeStyle = color;
+    ctx.lineWidth = 1.5;
     ctx.setLineDash(dash || []);
     ctx.beginPath();
     ctx.moveTo(plot.x, y);
     ctx.lineTo(plot.x + plot.w, y);
     ctx.stroke();
     ctx.restore();
-    ctx.fillStyle = color;
-    ctx.fillText(label + "  " + p, plot.x + plot.w + 8, y + 4);
+    tags.push({ y, text: label, color });
   }
 
   if (LAYERS.rev) {
-    band(4190, 4196, "rgba(224,122,106,0.18)", "Upside reversal 4190–4196", "rev");
-    band(4149, 4153, "rgba(125,206,160,0.20)", "Downside reversal 4149–4153", "rev");
+    band(4190, 4196, "rgba(163,59,50,0.10)", "Upside reversal  4190–4196");
+    band(4149, 4153, "rgba(31,122,77,0.12)", "Downside reversal  4149–4153");
   }
   if (LAYERS.ob) {
-    band(4174, 4179, "rgba(168,90,78,0.28)", "Bearish order block 4174–4179", "ob");
-    band(4156, 4161, "rgba(224,177,90,0.16)", "Breakout shelf 4156–4161", "ob");
+    band(4174, 4179, "rgba(163,59,50,0.16)", "Bearish block  4174–4179");
+    band(4156, 4161, "rgba(138,98,48,0.12)", "Shelf  4156–4161");
   }
   if (LAYERS.sr) {
-    hline(4209, "#e0b15a", "20-day", "sr");
-    hline(4135, "#7dcea0", "Daily shelf", "sr", [4, 3]);
-  }
-  if (LAYERS.bos) {
-    hline(4149, "#e07a6a", "Break under", "bos", [2, 3]);
-    hline(4196, "#7dcea0", "Break above", "bos", [2, 3]);
+    hline(4209, "#8a6230", "20-day  4209");
+    hline(4135, "#1f7a4d", "Daily shelf  4135", [5, 4]);
   }
   if (LAYERS.plan) {
-    hline(4179, "#7dcea0", "Buy close", "plan");
-    hline(4168, "#e07a6a", "Stop", "plan", [5, 3]);
-    hline(4190, "#e0b15a", "Target", "plan", [5, 3]);
+    hline(4179, "#1f7a4d", "Buy close  4179");
+    hline(4168, "#a33b32", "Stop  4168", [6, 4]);
+    hline(4190, "#8a6230", "Target  4190", [6, 4]);
   }
 
-  if (LAYERS.price) {
-    BARS.forEach((bar, i) => {
-      const x = xOf(i);
-      const up = bar.c >= bar.o;
-      ctx.strokeStyle = up ? "#7dcea0" : "#e07a6a";
-      ctx.fillStyle = up ? "#7dcea0" : "#e07a6a";
-      ctx.beginPath();
-      ctx.moveTo(x, yOf(bar.h));
-      ctx.lineTo(x, yOf(bar.l));
-      ctx.stroke();
-      const y1 = yOf(Math.max(bar.o, bar.c));
-      const y2 = yOf(Math.min(bar.o, bar.c));
-      ctx.fillRect(x - Math.max(2, slot * 0.28), y1, Math.max(4, slot * 0.56), Math.max(1, y2 - y1));
-    });
-    const x = plot.x + plot.w - 6;
-    ctx.strokeStyle = "#e0b15a";
-    ctx.setLineDash([3, 3]);
+  tags.sort((a, b) => a.y - b.y);
+  let last = -999;
+  tags.forEach((tag) => {
+    tag.y = Math.max(tag.y, last + 22);
+    last = tag.y;
+  });
+  ctx.font = "15px Segoe UI, Helvetica, sans-serif";
+  tags.forEach((tag) => {
+    ctx.fillStyle = tag.color;
+    ctx.fillText(tag.text, plot.x + plot.w + 16, tag.y);
+  });
+
+  const bodyW = Math.max(7, slot * 0.62);
+  BARS.forEach((bar, i) => {
+    const x = xOf(i);
+    const up = bar.c >= bar.o;
+    ctx.strokeStyle = up ? "#1f7a4d" : "#a33b32";
+    ctx.fillStyle = up ? "#1f7a4d" : "#a33b32";
+    ctx.lineWidth = 1.6;
     ctx.beginPath();
-    ctx.moveTo(plot.x, yOf(LIVE));
-    ctx.lineTo(plot.x + plot.w, yOf(LIVE));
+    ctx.moveTo(x, yOf(bar.h));
+    ctx.lineTo(x, yOf(bar.l));
     ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = "#e0b15a";
-    ctx.beginPath();
-    ctx.arc(xOf(n - 1), yOf(LIVE), 3.5, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillText("Live 4178", plot.x + plot.w + 8, yOf(LIVE) - 6);
-  }
+    const y1 = yOf(Math.max(bar.o, bar.c));
+    const y2 = yOf(Math.min(bar.o, bar.c));
+    ctx.fillRect(x - bodyW / 2, y1, bodyW, Math.max(1.5, y2 - y1));
+  });
 
-  ctx.fillStyle = "#9a937f";
-  ctx.fillText(BARS[0].t + " NY", plot.x, h - 8);
-  ctx.fillText(BARS[n - 1].t + " close", plot.x + plot.w - 90, h - 8);
+  ctx.strokeStyle = "#8a6230";
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  ctx.moveTo(plot.x, yOf(LIVE));
+  ctx.lineTo(plot.x + plot.w, yOf(LIVE));
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = "#8a6230";
+  ctx.beginPath();
+  ctx.arc(xOf(n - 1), yOf(LIVE), 5, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = "#6e685c";
+  ctx.font = "14px Segoe UI, Helvetica, sans-serif";
+  ctx.textBaseline = "alphabetic";
+  ctx.fillText("Thursday", plot.x, h - 14);
+  ctx.fillText("Friday 8:00 AM close", plot.x + plot.w - 150, h - 14);
 }
 
 canvas.addEventListener("mousemove", (ev) => {
@@ -261,19 +208,14 @@ canvas.addEventListener("mousemove", (ev) => {
   }
   const b = BARS[i];
   tip.style.display = "block";
-  tip.style.left = Math.min(x + 14, rect.width - 160) + "px";
-  tip.style.top = (ev.clientY - rect.top + 14) + "px";
-  tip.innerHTML = b.t + " NY<br>O " + b.o + "  H " + b.h + "<br>L " + b.l + "  C " + b.c;
+  tip.style.left = Math.min(x + 16, rect.width - 180) + "px";
+  tip.style.top = Math.max(12, ev.clientY - rect.top - 72) + "px";
+  tip.innerHTML = "<b>" + b.t + "</b> New York<br>Open " + b.o + " · High " + b.h + "<br>Low " + b.l + " · Close " + b.c;
 });
 canvas.addEventListener("mouseleave", () => { tip.style.display = "none"; });
-
 document.querySelectorAll("[data-layer]").forEach((el) => {
-  el.addEventListener("change", () => {
-    LAYERS[el.dataset.layer] = el.checked;
-    draw();
-  });
+  el.addEventListener("change", () => { LAYERS[el.dataset.layer] = el.checked; draw(); });
 });
-
 document.getElementById("png").addEventListener("click", () => {
   const a = document.createElement("a");
   a.href = canvas.toDataURL("image/png");
@@ -287,7 +229,6 @@ document.getElementById("html").addEventListener("click", () => {
   a.download = "xauusd_friday_16_oct.html";
   a.click();
 });
-
 window.addEventListener("resize", resize);
 resize();
 </script>
