@@ -25,7 +25,7 @@
   <div>
     <h1>XAUUSD · 15-minute candles · Friday 16 Oct</h1>
     <div class="sub">9:48 AM New York · spot 4177 · Swissquote 4178.7 / 4179.2 · close times are New York · green = support and +OB · red = resistance and −OB</div>
-    <div class="sub">On the chart: +OB 4149–4153 · S 4156–4161 · −OB 4174–4179 · S 4135 · S 4112 · 4179 · R 4190–4196 · R 4209 · R 4219. Outside this window: S 4066 below · R 4262 above.</div>
+    <div class="sub">All levels are drawn: +OB 4149–4153 · S 4156–4161 · −OB 4174–4179 · stop 4168 · buy 4179 · S 4135 · S 4112 · S 4066 · R 4190–4196 · R 4209 · R 4219 · R 4262.</div>
   </div>
   <div class="bar">
     <button id="zout" type="button">Zoom out</button>
@@ -51,11 +51,14 @@ const ctx = canvas.getContext("2d");
 let geom = null;
 
 const LINES = [
+  { p:4262, color:"#8a3b32", text:"R  20-week  4262" },
   { p:4219, color:"#8a3b32", text:"R  swing high  4219" },
   { p:4209, color:"#8a6230", text:"R  20-day  4209" },
   { p:4179, color:"#1f7a4d", text:"Buy close  4179" },
+  { p:4168, color:"#a33b32", text:"Stop  4168" },
   { p:4135, color:"#1f7a4d", text:"S  daily shelf  4135" },
-  { p:4112, color:"#1f7a4d", text:"S  last shelf  4112" }
+  { p:4112, color:"#1f7a4d", text:"S  last shelf  4112" },
+  { p:4066, color:"#1f7a4d", text:"S  week / month low  4066" }
 ];
 const BANDS = [
   { a:4190, b:4196, fill:"rgba(224,69,58,0.16)", text:"R  upside reversal  4190–4196" },
@@ -68,8 +71,8 @@ let holdView = false;
 
 function layout() {
   const dpr = window.devicePixelRatio || 1;
-  const pad = { l: 54, r: 250, t: 22, b: 28 };
-  const baseH = Math.max(1750, wrap.clientHeight * 2);
+  const pad = { l: 54, r: 290, t: 22, b: 28 };
+  const baseH = Math.max(2800, wrap.clientHeight * 2.8);
   slot = 22 * zoom;
   const cssH = Math.round(baseH * zoom);
   const cssW = pad.l + BARS.length * slot + pad.r;
@@ -105,7 +108,7 @@ function setZoom(next, ax, ay) {
 
 function draw(w, h, pad) {
   const plot = { x: pad.l, y: pad.t, w: BARS.length * slot, h: h - pad.t - pad.b };
-  const yMin = 4100, yMax = 4232;
+  const yMin = 4050, yMax = 4280;
   const yOf = p => plot.y + (yMax - p) / (yMax - yMin) * plot.h;
   const xOf = i => plot.x + slot * (i + 0.5);
   geom = { plot, yOf, xOf };
@@ -121,7 +124,7 @@ function draw(w, h, pad) {
   ctx.textAlign = "right";
   ctx.fillStyle = "#8a8376";
   ctx.strokeStyle = "#efe8dc";
-  for (let p = 4110; p <= 4220; p += 10) {
+  for (let p = 4060; p <= 4260; p += 20) {
     const y = yOf(p);
     ctx.beginPath();
     ctx.moveTo(plot.x, y);
@@ -130,10 +133,6 @@ function draw(w, h, pad) {
     ctx.fillText(String(p), plot.x - 8, y);
   }
   ctx.textAlign = "left";
-  ctx.fillStyle = "#8a3b32";
-  ctx.fillText("R  4262 is above this window", plot.x + 8, plot.y + 12);
-  ctx.fillStyle = "#1f7a4d";
-  ctx.fillText("S  4066 is below this window", plot.x + 8, plot.y + plot.h - 12);
 
   const tags = [];
   ctx.font = "bold 12px Segoe UI, Helvetica, sans-serif";
