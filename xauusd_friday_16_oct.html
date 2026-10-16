@@ -46,7 +46,7 @@ const LINES = [
   { p:4219, color:"#8a3b32", text:"R  swing high  4219" },
   { p:4209, color:"#8a6230", text:"R  20-day  4209" },
   { p:4179, color:"#1f7a4d", text:"Buy close  4179" },
-  { p:4168, color:"#a33b32", text:"Stop  4168" },
+  { p:4168, color:"#a33b32", text:"Stop  4168   ·   NOW  4169" },
   { p:4135, color:"#1f7a4d", text:"S  daily shelf  4135" },
   { p:4112, color:"#1f7a4d", text:"S  last shelf  4112" },
   { p:4066, color:"#1f7a4d", text:"S  week / month low  4066" }
@@ -70,7 +70,7 @@ function resize() {
 function draw() {
   const w = canvas.getBoundingClientRect().width;
   const h = canvas.getBoundingClientRect().height;
-  const pad = { l: 18, r: 280, t: 16, b: 36 };
+  const pad = { l: 46, r: 300, t: 16, b: 36 };
   const plot = { x: pad.l, y: pad.t, w: w - pad.l - pad.r, h: h - pad.t - pad.b };
   const yMin = 4055, yMax = 4275;
   const yOf = p => plot.y + (yMax - p) / (yMax - yMin) * plot.h;
@@ -85,17 +85,20 @@ function draw() {
   ctx.fillStyle = "#fffdf8";
   ctx.fillRect(plot.x, plot.y, plot.w, plot.h);
 
-  ctx.font = "12px Segoe UI, Helvetica, sans-serif";
+  ctx.font = "11px Segoe UI, Helvetica, sans-serif";
   ctx.textBaseline = "middle";
   ctx.strokeStyle = "#efe8dc";
   ctx.fillStyle = "#b3ab9e";
+  ctx.textAlign = "right";
   for (let p = 4060; p <= 4260; p += 20) {
     const y = yOf(p);
     ctx.beginPath();
     ctx.moveTo(plot.x, y);
     ctx.lineTo(plot.x + plot.w, y);
     ctx.stroke();
+    ctx.fillText(String(p), plot.x - 6, y);
   }
+  ctx.textAlign = "left";
 
   const tags = [];
   BANDS.forEach((band) => {
@@ -104,7 +107,7 @@ function draw() {
     ctx.fillStyle = band.fill;
     ctx.fillRect(plot.x, y1, plot.w, Math.max(6, y2 - y1));
     ctx.fillStyle = "#1c1a16";
-    ctx.font = "bold 12px Segoe UI, Helvetica, sans-serif";
+    ctx.font = "bold 11px Segoe UI, Helvetica, sans-serif";
     ctx.fillText(band.text.split("  ")[0], plot.x + 8, (y1 + y2) / 2);
     tags.push({ y: (y1 + y2) / 2, text: band.text, color: "#1c1a16" });
   });
@@ -123,13 +126,16 @@ function draw() {
   });
 
   tags.sort((a, b) => a.y - b.y);
-  let last = plot.y + 8;
-  tags.forEach((tag) => {
-    tag.y = Math.max(plot.y + 8, Math.min(tag.y, plot.y + plot.h - 8));
-    tag.y = Math.max(tag.y, last + 16);
-    last = tag.y;
-  });
-  ctx.font = "12px Segoe UI, Helvetica, sans-serif";
+  const top = plot.y + 8;
+  const bot = plot.y + plot.h - 8;
+  const gap = Math.min(15, (bot - top) / Math.max(1, tags.length - 1));
+  tags.forEach((tag) => { tag.y = Math.max(top, Math.min(tag.y, bot)); });
+  for (let i = 1; i < tags.length; i++) tags[i].y = Math.max(tags[i].y, tags[i - 1].y + gap);
+  if (tags.length && tags[tags.length - 1].y > bot) {
+    tags[tags.length - 1].y = bot;
+    for (let i = tags.length - 2; i >= 0; i--) tags[i].y = Math.min(tags[i].y, tags[i + 1].y - gap);
+  }
+  ctx.font = "11px Segoe UI, Helvetica, sans-serif";
   tags.forEach((tag) => {
     ctx.fillStyle = tag.color;
     ctx.fillText(tag.text, plot.x + plot.w + 12, tag.y);
@@ -162,13 +168,11 @@ function draw() {
   ctx.setLineDash([]);
   ctx.fillStyle = "#1c1a16";
   ctx.beginPath();
-  ctx.arc(xOf(n - 1), yLive, 4, 0, Math.PI * 2);
+  ctx.arc(xOf(n - 1), yLive, 4.5, 0, Math.PI * 2);
   ctx.fill();
-  ctx.font = "bold 12px Segoe UI, Helvetica, sans-serif";
-  ctx.fillText("NOW  4169", plot.x + plot.w + 12, Math.min(yLive, plot.y + plot.h - 8));
 
   ctx.fillStyle = "#6d675c";
-  ctx.font = "12px Segoe UI, Helvetica, sans-serif";
+  ctx.font = "11px Segoe UI, Helvetica, sans-serif";
   ctx.textBaseline = "alphabetic";
   ctx.fillText("Thursday", plot.x, h - 12);
   ctx.fillText("Friday 9:00 AM", plot.x + plot.w - 100, h - 12);
