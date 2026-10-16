@@ -8,12 +8,14 @@
   :root { --bg:#f4f1ea; --ink:#1c1a16; --muted:#6d675c; --line:#e3dccf; }
   * { box-sizing: border-box; }
   html, body { margin:0; height:100%; background:var(--bg); color:var(--ink); font: 14px/1.35 "Segoe UI", Helvetica, Arial, sans-serif; }
-  header { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; padding:8px 14px; border-bottom:1px solid var(--line); background:#fffdf8; }
+  body { display:flex; flex-direction:column; }
+  header { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; padding:8px 14px; border-bottom:1px solid var(--line); background:#fffdf8; flex:none; }
   h1 { font: 600 18px/1.2 Georgia, serif; margin:0; }
   .sub { color:var(--muted); font-size:12px; margin-top:2px; }
-  .bar { display:flex; gap:8px; align-items:center; }
+  .bar { display:flex; gap:8px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
   button { background:#fff; border:1px solid var(--line); border-radius:8px; padding:8px 12px; cursor:pointer; }
-  #wrap { position:relative; height: calc(100vh - 78px); overflow:auto; }
+  #zlabel { min-width:48px; text-align:center; color:var(--muted); font-size:13px; }
+  #wrap { position:relative; flex:1; min-height:0; overflow:auto; }
   canvas { display:block; }
   #tip { position:absolute; display:none; pointer-events:none; background:#fff; border:1px solid var(--line); border-radius:8px; padding:8px 10px; font-size:12px; box-shadow:0 6px 18px rgba(0,0,0,.08); z-index:2; }
 </style>
@@ -26,6 +28,9 @@
     <div class="sub">On the chart: +OB 4149–4153 · S 4156–4161 · −OB 4174–4179 · S 4135 · S 4112 · 4179 · R 4190–4196 · R 4209 · R 4219. Outside this window: S 4066 below · R 4262 above.</div>
   </div>
   <div class="bar">
+    <button id="zout" type="button">Zoom out</button>
+    <span id="zlabel">135%</span>
+    <button id="zin" type="button">Zoom in</button>
     <button id="png" type="button">Download PNG</button>
     <button id="html" type="button">Download HTML</button>
   </div>
@@ -37,7 +42,8 @@
 <script>
 const BARS = [{"t":"Thu 12:15","o":4151.2,"h":4152.3,"l":4146.7,"c":4147.7},{"t":"Thu 12:30","o":4147.6,"h":4152.5,"l":4146.9,"c":4151.8},{"t":"Thu 12:45","o":4151.6,"h":4153.4,"l":4150.1,"c":4150.8},{"t":"Thu 1:00","o":4150.4,"h":4152.1,"l":4148.8,"c":4150.5},{"t":"Thu 1:15","o":4150.3,"h":4152.5,"l":4148.6,"c":4150.8},{"t":"Thu 1:30","o":4150.9,"h":4152.8,"l":4145.7,"c":4147.8},{"t":"Thu 1:45","o":4147.6,"h":4149.1,"l":4143.1,"c":4146.2},{"t":"Thu 2:00","o":4146.5,"h":4147.2,"l":4141.4,"c":4143.7},{"t":"Thu 2:15","o":4143.3,"h":4143.5,"l":4137.2,"c":4139.1},{"t":"Thu 2:30","o":4143.0,"h":4144.9,"l":4140.6,"c":4143.9},{"t":"Thu 2:45","o":4143.7,"h":4145.9,"l":4138.6,"c":4140.3},{"t":"Thu 3:00","o":4140.4,"h":4142.4,"l":4139.2,"c":4141.8},{"t":"Thu 3:15","o":4141.9,"h":4149.7,"l":4141.5,"c":4149.0},{"t":"Thu 3:30","o":4149.1,"h":4150.6,"l":4144.8,"c":4149.2},{"t":"Thu 3:45","o":4149.0,"h":4151.2,"l":4146.9,"c":4149.2},{"t":"Thu 4:00","o":4149.3,"h":4151.8,"l":4147.1,"c":4151.8},{"t":"Thu 4:15","o":4151.6,"h":4160.2,"l":4150.9,"c":4159.9},{"t":"Thu 4:30","o":4159.8,"h":4165.0,"l":4157.3,"c":4161.9},{"t":"Thu 4:45","o":4161.6,"h":4164.4,"l":4156.0,"c":4156.5},{"t":"Thu 5:00","o":4156.6,"h":4160.6,"l":4154.5,"c":4157.2},{"t":"Thu 5:15","o":4157.3,"h":4163.6,"l":4157.2,"c":4163.3},{"t":"Thu 5:30","o":4163.6,"h":4165.7,"l":4160.7,"c":4164.5},{"t":"Thu 5:45","o":4164.6,"h":4166.5,"l":4163.1,"c":4164.1},{"t":"Thu 6:00","o":4164.1,"h":4165.9,"l":4159.6,"c":4163.1},{"t":"Thu 6:15","o":4163.2,"h":4164.9,"l":4160.9,"c":4161.4},{"t":"Thu 6:30","o":4161.4,"h":4161.9,"l":4158.2,"c":4159.5},{"t":"Thu 6:45","o":4159.8,"h":4161.6,"l":4158.7,"c":4159.0},{"t":"Thu 7:00","o":4159.0,"h":4161.8,"l":4157.9,"c":4160.9},{"t":"Thu 7:15","o":4161.0,"h":4165.5,"l":4160.9,"c":4164.0},{"t":"Thu 7:30","o":4163.9,"h":4164.8,"l":4161.4,"c":4162.6},{"t":"Thu 7:45","o":4162.5,"h":4165.5,"l":4155.8,"c":4156.7},{"t":"Thu 8:00","o":4156.7,"h":4158.4,"l":4150.5,"c":4150.5},{"t":"Thu 8:15","o":4150.9,"h":4156.3,"l":4149.8,"c":4154.6},{"t":"Thu 8:30","o":4154.5,"h":4161.0,"l":4154.3,"c":4160.5},{"t":"Thu 8:45","o":4160.5,"h":4165.3,"l":4136.1,"c":4151.6},{"t":"Thu 9:00","o":4151.5,"h":4158.7,"l":4145.7,"c":4157.7},{"t":"Thu 9:15","o":4157.8,"h":4163.4,"l":4149.8,"c":4163.4},{"t":"Thu 9:30","o":4163.5,"h":4174.4,"l":4159.6,"c":4162.0},{"t":"Thu 9:45","o":4162.1,"h":4169.5,"l":4156.1,"c":4162.6},{"t":"Thu 10:00","o":4163.3,"h":4167.0,"l":4157.9,"c":4160.8},{"t":"Thu 10:15","o":4161.0,"h":4162.5,"l":4151.0,"c":4153.8},{"t":"Thu 10:30","o":4153.9,"h":4167.5,"l":4150.3,"c":4162.2},{"t":"Thu 10:45","o":4162.1,"h":4170.8,"l":4161.5,"c":4162.7},{"t":"Thu 11:00","o":4162.7,"h":4167.4,"l":4159.6,"c":4163.3},{"t":"Thu 11:15","o":4163.6,"h":4164.9,"l":4155.9,"c":4159.9},{"t":"Thu 11:30","o":4159.7,"h":4164.5,"l":4159.1,"c":4160.9},{"t":"Thu 11:45","o":4160.1,"h":4162.5,"l":4154.3,"c":4157.6},{"t":"Thu 12:00","o":4157.7,"h":4158.7,"l":4153.6,"c":4155.1},{"t":"Thu 12:15","o":4155.3,"h":4156.0,"l":4149.0,"c":4150.1},{"t":"Thu 12:30","o":4150.2,"h":4158.3,"l":4150.0,"c":4156.3},{"t":"Thu 12:45","o":4156.3,"h":4157.3,"l":4153.2,"c":4154.4},{"t":"Thu 1:00","o":4154.3,"h":4156.7,"l":4152.3,"c":4153.0},{"t":"Thu 1:15","o":4152.8,"h":4154.7,"l":4150.6,"c":4153.5},{"t":"Thu 1:30","o":4153.4,"h":4157.8,"l":4151.8,"c":4154.2},{"t":"Thu 1:45","o":4154.4,"h":4160.0,"l":4153.1,"c":4159.2},{"t":"Thu 2:00","o":4159.2,"h":4160.2,"l":4157.6,"c":4158.7},{"t":"Thu 2:15","o":4158.8,"h":4164.0,"l":4158.4,"c":4160.6},{"t":"Thu 2:30","o":4160.6,"h":4164.0,"l":4160.2,"c":4163.5},{"t":"Thu 2:45","o":4163.4,"h":4164.0,"l":4161.5,"c":4162.5},{"t":"Thu 3:00","o":4162.6,"h":4164.3,"l":4162.2,"c":4163.1},{"t":"Thu 3:15","o":4163.2,"h":4167.2,"l":4163.1,"c":4166.8},{"t":"Thu 3:30","o":4166.9,"h":4168.1,"l":4164.2,"c":4164.5},{"t":"Thu 3:45","o":4164.4,"h":4176.0,"l":4163.1,"c":4175.3},{"t":"Thu 4:00","o":4175.2,"h":4181.5,"l":4173.6,"c":4180.2},{"t":"Thu 4:15","o":4180.4,"h":4182.2,"l":4176.9,"c":4178.7},{"t":"Thu 4:30","o":4178.8,"h":4179.3,"l":4174.1,"c":4175.7},{"t":"Thu 4:45","o":4175.6,"h":4176.8,"l":4173.9,"c":4175.9},{"t":"Thu 5:00","o":4175.8,"h":4177.6,"l":4174.4,"c":4177.0},{"t":"Thu 6:15","o":4176.6,"h":4178.4,"l":4175.5,"c":4176.2},{"t":"Thu 6:30","o":4176.4,"h":4176.9,"l":4172.9,"c":4173.8},{"t":"Thu 6:45","o":4173.5,"h":4174.0,"l":4171.8,"c":4172.4},{"t":"Thu 7:00","o":4172.3,"h":4172.3,"l":4169.6,"c":4169.8},{"t":"Thu 7:15","o":4169.9,"h":4171.2,"l":4168.7,"c":4169.8},{"t":"Thu 7:30","o":4169.9,"h":4169.9,"l":4167.0,"c":4167.6},{"t":"Thu 7:45","o":4167.5,"h":4167.6,"l":4161.6,"c":4163.1},{"t":"Thu 8:00","o":4162.9,"h":4164.2,"l":4161.1,"c":4161.4},{"t":"Thu 8:15","o":4160.9,"h":4161.4,"l":4156.8,"c":4160.3},{"t":"Thu 8:30","o":4160.5,"h":4161.8,"l":4158.5,"c":4160.8},{"t":"Thu 8:45","o":4160.8,"h":4161.6,"l":4156.9,"c":4159.6},{"t":"Thu 9:00","o":4159.2,"h":4163.2,"l":4158.2,"c":4161.8},{"t":"Thu 9:15","o":4161.4,"h":4166.2,"l":4158.5,"c":4163.0},{"t":"Thu 9:30","o":4163.2,"h":4165.4,"l":4155.3,"c":4156.0},{"t":"Thu 9:45","o":4156.1,"h":4156.5,"l":4152.0,"c":4155.1},{"t":"Thu 10:00","o":4155.4,"h":4160.3,"l":4153.2,"c":4157.9},{"t":"Thu 10:15","o":4158.0,"h":4163.1,"l":4157.8,"c":4161.3},{"t":"Thu 10:30","o":4161.4,"h":4167.6,"l":4158.5,"c":4167.6},{"t":"Thu 10:45","o":4167.2,"h":4171.7,"l":4165.9,"c":4167.6},{"t":"Thu 11:00","o":4168.2,"h":4185.8,"l":4167.5,"c":4182.0},{"t":"Thu 11:15","o":4181.6,"h":4182.0,"l":4177.0,"c":4179.5},{"t":"Thu 11:30","o":4179.7,"h":4179.8,"l":4174.5,"c":4175.6},{"t":"Thu 11:45","o":4175.1,"h":4176.1,"l":4168.4,"c":4171.5},{"t":"Fri 12:00","o":4171.7,"h":4189.5,"l":4171.6,"c":4188.9},{"t":"Fri 12:15","o":4189.1,"h":4192.4,"l":4181.5,"c":4182.6},{"t":"Fri 12:30","o":4182.8,"h":4187.5,"l":4181.7,"c":4184.8},{"t":"Fri 12:45","o":4184.2,"h":4184.8,"l":4179.8,"c":4180.8},{"t":"Fri 1:00","o":4181.0,"h":4181.2,"l":4178.0,"c":4180.3},{"t":"Fri 1:15","o":4180.4,"h":4181.8,"l":4175.8,"c":4178.4},{"t":"Fri 1:30","o":4178.2,"h":4181.7,"l":4177.1,"c":4177.5},{"t":"Fri 1:45","o":4177.3,"h":4182.1,"l":4175.2,"c":4179.2},{"t":"Fri 2:00","o":4179.3,"h":4182.7,"l":4176.1,"c":4180.4},{"t":"Fri 2:15","o":4180.2,"h":4182.8,"l":4174.6,"c":4174.9},{"t":"Fri 2:30","o":4175.1,"h":4181.5,"l":4174.2,"c":4181.4},{"t":"Fri 2:45","o":4181.7,"h":4186.6,"l":4180.6,"c":4184.9},{"t":"Fri 3:00","o":4184.9,"h":4185.5,"l":4182.2,"c":4182.7},{"t":"Fri 3:15","o":4182.6,"h":4192.7,"l":4181.9,"c":4190.9},{"t":"Fri 3:30","o":4190.4,"h":4195.1,"l":4189.8,"c":4193.4},{"t":"Fri 3:45","o":4193.5,"h":4195.7,"l":4188.4,"c":4189.7},{"t":"Fri 4:00","o":4189.7,"h":4194.4,"l":4188.5,"c":4192.8},{"t":"Fri 4:15","o":4193.0,"h":4193.2,"l":4185.1,"c":4186.9},{"t":"Fri 4:30","o":4186.7,"h":4191.1,"l":4184.2,"c":4190.4},{"t":"Fri 4:45","o":4190.2,"h":4191.6,"l":4187.3,"c":4191.0},{"t":"Fri 5:00","o":4190.9,"h":4195.1,"l":4189.3,"c":4195.1},{"t":"Fri 5:15","o":4194.7,"h":4197.2,"l":4191.9,"c":4197.0},{"t":"Fri 5:30","o":4197.0,"h":4197.8,"l":4187.7,"c":4188.0},{"t":"Fri 5:45","o":4188.1,"h":4189.1,"l":4184.7,"c":4185.7},{"t":"Fri 6:00","o":4185.5,"h":4188.8,"l":4182.6,"c":4182.6},{"t":"Fri 6:15","o":4182.7,"h":4188.3,"l":4180.7,"c":4187.5},{"t":"Fri 6:30","o":4187.8,"h":4191.0,"l":4186.9,"c":4189.6},{"t":"Fri 6:45","o":4189.5,"h":4189.6,"l":4186.9,"c":4187.3},{"t":"Fri 7:00","o":4187.3,"h":4187.9,"l":4179.4,"c":4180.0},{"t":"Fri 7:15","o":4179.5,"h":4183.1,"l":4178.0,"c":4180.9},{"t":"Fri 7:30","o":4180.8,"h":4187.5,"l":4180.5,"c":4184.5},{"t":"Fri 7:45","o":4184.8,"h":4185.2,"l":4182.1,"c":4183.5},{"t":"Fri 8:00","o":4183.3,"h":4184.1,"l":4176.8,"c":4177.4},{"t":"Fri 8:15","o":4177.3,"h":4181.8,"l":4176.8,"c":4179.6},{"t":"Fri 8:30","o":4179.5,"h":4185.5,"l":4177.8,"c":4181.6},{"t":"Fri 8:45","o":4181.4,"h":4187.2,"l":4180.8,"c":4181.3},{"t":"Fri 9:00","o":4181.5,"h":4181.8,"l":4168.2,"c":4171.8},{"t":"Fri 9:15","o":4171.8,"h":4176.1,"l":4170.6,"c":4172.6},{"t":"Fri 9:30","o":4172.4,"h":4172.6,"l":4159.8,"c":4165.4},{"t":"Fri 9:45","o":4165.2,"h":4179.2,"l":4162.4,"c":4177.2}];
 const LIVE = 4177.2;
-const SLOT = 22;
+let zoom = 1.35;
+let slot = 22;
 const canvas = document.getElementById("c");
 const wrap = document.getElementById("wrap");
 const tip = document.getElementById("tip");
@@ -58,27 +64,50 @@ const BANDS = [
   { a:4149, b:4153, fill:"rgba(18,140,90,0.28)", text:"+OB  bullish order block  4149–4153" }
 ];
 
+let holdView = false;
+
 function layout() {
   const dpr = window.devicePixelRatio || 1;
   const pad = { l: 54, r: 250, t: 22, b: 28 };
-  const cssH = Math.max(640, wrap.clientHeight);
-  const cssW = pad.l + BARS.length * SLOT + pad.r;
+  const baseH = Math.max(1750, wrap.clientHeight * 2);
+  slot = 22 * zoom;
+  const cssH = Math.round(baseH * zoom);
+  const cssW = pad.l + BARS.length * slot + pad.r;
   canvas.style.width = cssW + "px";
   canvas.style.height = cssH + "px";
   canvas.width = Math.max(1, cssW * dpr);
   canvas.height = Math.max(1, cssH * dpr);
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   draw(cssW, cssH, pad);
-  const yNow = geom.yOf(LIVE);
-  wrap.scrollLeft = wrap.scrollWidth;
-  wrap.scrollTop = Math.max(0, yNow - wrap.clientHeight * 0.45);
+  if (!holdView) {
+    const yNow = geom.yOf(LIVE);
+    wrap.scrollLeft = wrap.scrollWidth;
+    wrap.scrollTop = Math.max(0, yNow - wrap.clientHeight * 0.42);
+  }
+}
+
+function setZoom(next, ax, ay) {
+  const prev = zoom;
+  next = Math.max(0.7, Math.min(3, Math.round(next * 20) / 20));
+  if (next === prev) return;
+  const vx = ax == null ? wrap.clientWidth * 0.7 : ax;
+  const vy = ay == null ? wrap.clientHeight * 0.4 : ay;
+  const contentX = wrap.scrollLeft + vx;
+  const contentY = wrap.scrollTop + vy;
+  zoom = next;
+  holdView = true;
+  layout();
+  holdView = false;
+  wrap.scrollLeft = contentX * (next / prev) - vx;
+  wrap.scrollTop = contentY * (next / prev) - vy;
+  document.getElementById("zlabel").textContent = Math.round(zoom * 100) + "%";
 }
 
 function draw(w, h, pad) {
-  const plot = { x: pad.l, y: pad.t, w: BARS.length * SLOT, h: h - pad.t - pad.b };
+  const plot = { x: pad.l, y: pad.t, w: BARS.length * slot, h: h - pad.t - pad.b };
   const yMin = 4100, yMax = 4232;
   const yOf = p => plot.y + (yMax - p) / (yMax - yMin) * plot.h;
-  const xOf = i => plot.x + SLOT * (i + 0.5);
+  const xOf = i => plot.x + slot * (i + 0.5);
   geom = { plot, yOf, xOf };
 
   ctx.clearRect(0, 0, w, h);
@@ -148,7 +177,7 @@ function draw(w, h, pad) {
     ctx.fillText(tag.text, plot.x + plot.w + 10, tag.y);
   });
 
-  const bodyW = Math.max(12, SLOT * 0.72);
+  const bodyW = Math.max(12, slot * 0.72);
   ctx.lineWidth = 2;
   BARS.forEach((bar, i) => {
     const x = xOf(i);
@@ -194,7 +223,7 @@ canvas.addEventListener("mousemove", (ev) => {
   if (!geom) return;
   const rect = canvas.getBoundingClientRect();
   const x = ev.clientX - rect.left;
-  const i = Math.floor((x - geom.plot.x) / SLOT);
+  const i = Math.floor((x - geom.plot.x) / slot);
   if (i < 0 || i >= BARS.length) { tip.style.display = "none"; return; }
   const b = BARS[i];
   tip.style.display = "block";
@@ -217,6 +246,14 @@ document.getElementById("html").addEventListener("click", () => {
   a.download = "xauusd_friday_16_oct.html";
   a.click();
 });
+document.getElementById("zin").addEventListener("click", () => setZoom(zoom + 0.25));
+document.getElementById("zout").addEventListener("click", () => setZoom(zoom - 0.25));
+wrap.addEventListener("wheel", (ev) => {
+  if (!ev.ctrlKey && !ev.metaKey) return;
+  ev.preventDefault();
+  const rect = wrap.getBoundingClientRect();
+  setZoom(zoom * (ev.deltaY < 0 ? 1.12 : 0.9), ev.clientX - rect.left, ev.clientY - rect.top);
+}, { passive: false });
 window.addEventListener("resize", layout);
 layout();
 </script>
